@@ -87,7 +87,8 @@ static inline bool is_hyp_mode_available(void)
 	 */
 	if (is_pkvm_initialized())
 		return true;
-
+/* PROJECT SHIV: QHEE EL2 test */
+	return true;
 	return (__boot_cpu_mode[0] == BOOT_CPU_MODE_EL2 &&
 		__boot_cpu_mode[1] == BOOT_CPU_MODE_EL2);
 }
