@@ -9,7 +9,7 @@ jobs:
       with:
         fetch-depth: 1
     - name: Install Dependencies
-      run: sudo apt-get update -y && sudo apt-get install -y git make bc bison flex libssl-dev libelf-dev python3 zip gcc-aarch64-linux-gnu gcc binutils-aarch64-linux-gnu
+      run: sudo apt-get update -y && sudo apt-get install -y git make bc bison flex libssl-dev libelf-dev python3 zip gcc-aarch64-linux-gnu gcc binutils-aarch64-linux-gnu dwarves
     - name: Download Clang
       run: |
         mkdir -p $HOME/clang
