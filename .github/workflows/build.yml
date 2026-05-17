@@ -1,6 +1,5 @@
 name: Project Shiv Kernel Build
-'on':
-  workflow_dispatch:
+on: push
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -22,10 +21,6 @@ jobs:
     - name: Build Kernel
       run: |
         export ARCH=arm64
-        export SUBARCH=arm64
-        export CC=clang
-        export CLANG_TRIPLE=aarch64-linux-gnu-
-        export CROSS_COMPILE=aarch64-linux-gnu-
         make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- generic_bengal_defconfig
         make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- -j$(nproc) 2>&1 | tee build.log
     - name: Upload Kernel
