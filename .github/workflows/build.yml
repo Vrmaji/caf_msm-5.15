@@ -1,33 +1,24 @@
 name: Project Shiv Kernel Build
-
-on:
+'on':
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-
     - name: Checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: 1
-
     - name: Install Dependencies
       run: |
         sudo apt-get update -y
-        sudo apt-get install -y git make bc bison flex \
-          libssl-dev libelf-dev python3 zip \
-          aarch64-linux-gnu-gcc gcc \
-          binutils-aarch64-linux-gnu
-
+        sudo apt-get install -y git make bc bison flex libssl-dev libelf-dev python3 zip aarch64-linux-gnu-gcc gcc binutils-aarch64-linux-gnu
     - name: Download Clang
       run: |
         mkdir -p $HOME/clang
         wget -q "https://github.com/ZyCromerZ/Clang/releases/download/17.0.0-20230725-release/Clang-17.0.0-20230725.tar.gz" -O clang.tar.gz
         tar -xf clang.tar.gz -C $HOME/clang
         echo "$HOME/clang/bin" >> $GITHUB_PATH
-
     - name: Build Kernel
       run: |
         export ARCH=arm64
@@ -35,26 +26,15 @@ jobs:
         export CC=clang
         export CLANG_TRIPLE=aarch64-linux-gnu-
         export CROSS_COMPILE=aarch64-linux-gnu-
-        make O=out ARCH=arm64 \
-          CC=clang \
-          CLANG_TRIPLE=aarch64-linux-gnu- \
-          CROSS_COMPILE=aarch64-linux-gnu- \
-          generic_bengal_defconfig
-        make O=out ARCH=arm64 \
-          CC=clang \
-          CLANG_TRIPLE=aarch64-linux-gnu- \
-          CROSS_COMPILE=aarch64-linux-gnu- \
-          -j$(nproc) 2>&1 | tee build.log
-
+        make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- generic_bengal_defconfig
+        make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- -j$(nproc) 2>&1 | tee build.log
     - name: Upload Kernel
       uses: actions/upload-artifact@v4
       with:
         name: ProjectShiv-Kernel
         path: |
           out/arch/arm64/boot/Image
-          out/arch/arm64/boot/Image.gz-dtb
           build.log
-
     - name: Upload Log if Failed
       if: failure()
       uses: actions/upload-artifact@v4
