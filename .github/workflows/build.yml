@@ -16,6 +16,10 @@ jobs:
         wget -q "https://github.com/ZyCromerZ/Clang/releases/download/17.0.0-20230725-release/Clang-17.0.0-20230725.tar.gz" -O clang.tar.gz
         tar -xf clang.tar.gz -C $HOME/clang
         echo "$HOME/clang/bin" >> $GITHUB_PATH
+        - name: Fix ABI Whitelist
+      run: |
+        mkdir -p /home/runner/work/msm-5.15/msm-5.15/workspace/out/common/
+        touch /home/runner/work/msm-5.15/msm-5.15/workspace/out/common/abi_symbollist.raw
     - name: Build Kernel
       run: |
         export ARCH=arm64
