@@ -2257,12 +2257,12 @@ int kvm_arch_init(void *opaque)
 
 	if (!is_hyp_mode_available()) {
 		kvm_info("HYP mode not available\n");
-		return -ENODEV;
+		// return -ENODEV;
 	}
 
 	if (kvm_get_mode() == KVM_MODE_NONE) {
 		kvm_info("KVM disabled from command line\n");
-		return -ENODEV;
+		// return -ENODEV;
 	}
 
 	in_hyp_mode = is_kernel_in_hyp_mode();
