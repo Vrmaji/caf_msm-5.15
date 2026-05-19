@@ -2253,6 +2253,8 @@ void kvm_arch_irq_bypass_start(struct irq_bypass_consumer *cons)
 int kvm_arch_init(void *opaque)
 {
 	int err;
+	#undef CONFIG_ARM64_VHE
+	#define CONFIG_ARM64_VHE 0
 	bool in_hyp_mode;
 
 	if (!is_hyp_mode_available()) {
